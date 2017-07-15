@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+
+<package name="test" extends="json-default">
+	<!-- 用户登录过滤器，只有用户登录了以后才能进行访问 -->
+	<interceptors>
+			<interceptor name="authority"
+				class="com.wind.interceptor.AuthorityInterceptor" />
+			<interceptor-stack name="mydefault">
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="authority" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="mydefault"></default-interceptor-ref>
+
+		<global-results>
+			<result name="login" type="redirect">/index.jsp</result>
+		</global-results>
+		<action name="logLogin" class="userAction" method="logLogin">
+			<result type="json"><param name="root">user</param> </result>
+		</action>
+		<!-- 批量添加项目策略 -->
+		<action name="addPolicy" class="policyAction" method="addPolicy">
+			<result type="json"><param name="root">"aaaaaa"</param> </result>
+		</action>
+		<action name="deliverTask" class="taskAction" method="deliverTask">
+		<result type="json"><param name="root">"aaaaaa"</param> </result>
+		</action>
+		<action name="deletePolicy" class="policyAction" method="deletePolicy"></action>
+		<action name="delPlan" class="planAction" method="delPlan"></action>
+		<action name="deletePlan" class="planAction" method="deletePlan"></action>
+		<!-- 查找所有的用例分类 -->
+		<action name="allCaseType" class="caseAction" method="findAllCaseType">
+			<result name="success" type="json">
+				<param name="root">code</param>
+			</result>
+		</action>
+		<!-- 根据用例分类，显示该名下所有的用例库名称 -->
+		<action name="allCaseStore" class="caseAction" method="findAllCasestore">
+			<result name="success" type="json">
+				<param name="root">code</param>
+			</result>
+		</action>
+		<!-- 根据用例库编号，统计该名下用例的条数 -->
+		<action name="allCaseNum" class="caseAction" method="showCaseNum">
+			<result name="success" type="json">
+				<param name="root">code</param>
+			</result>
+		</action>
+		<!-- 批量添加项目计划 -->
+		<action name="addPlan" class="planAction" method="addPlan">
+			<result type="json"><param name="root">"aaaaaa"</param> </result>
+		</action>
+		<!-- 批量编辑项目计划 -->
+		<action name="editPlan" class="planAction" method="editPlan">
+			<result type="json"><param name="root">"aaaaaa"</param> </result>
+		</action>
+		<!-- 添加周计划 -->
+		<action name="addWeekPlan" class="planAction" method="addWeekPlan">
+		<result type="json"><param name="root">"aaaaaa"</param> </result></action>
+		<!-- 显示所有项目组内的成员 -->
+		<action name="showProjectUser" class="taskAction" method="showProjectUser"></action>
+		
+		<action name="showCaseLevel" class="taskAction" method="showCaseLevel"></action>
+		<!-- 显示用户信息 -->
+		<action name="showUserMsg" class="taskAction" method="showUserMsg"></action>
+		<action name="checkTestCase" class="taskAction" method="checkTestCase"></action>
+		<action name="deliverMy" class="taskAction" method="deliverMy"></action>
+		<action name="checkPlanContent" class="taskAction" method="checkPlanContent"></action>
+		<!-- 保存用例测试结果 -->
+		<action name="SaveCaseResult" class="taskAction" method="SaveCaseResult">
+		<result type="json"><param name="root">"aaaaaa"</param> </result>
+		</action>
+		<!-- 验证用户是否有添加项目计划的权限 -->
+		<action name="validation" class="validationPermissionAction" method="validation"></action>
+		<action name="checkRole" class="validationPermissionAction" method="checkRole"></action>
+		<!-- 验证该计划是否已被分配执行 -->
+		<action name="valiPlan" class="planAction" method="valiPlan"></action>
+		<!-- 用户修改密码 -->
+		<action name="updatePwd" class="userAction" method="updatePwd">
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+		<!-- 导出项目计划 -->
+		<action name="exportPlan" method="exportPlan" class="planAction"></action>
+		<!-- 导出策略 -->
+		<action name="exportPolicy" class="policyAction" method="exportPolicy"></action>
+		<!-- 版本测试结果统计 -->
+		<action name="showVersionResult" class="taskAction" method="showVersionResult">
+		</action>
+		<!-- 模块测试结果统计 -->
+		<action name="showModuleResult" class="taskAction" method="showModuleResult">
+		
+		</action>
+		
+	</package>
+	<package name="test1" extends="json-default">
+	<!-- 管理员过滤器，只有登录了管理员账户信息才能访问 -->
+	<interceptors>
+			<interceptor name="authorityAdmin" class="com.wind.interceptor.AdminInterceptor" />
+			<interceptor-stack name="mydefaultAdmin">
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="authorityAdmin" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="mydefaultAdmin"></default-interceptor-ref>
+
+		<global-results>
+			<result name="login">/adminIndex.jsp</result>
+		</global-results>
+		<!-- 添加用户时，验证输入的用户工号是否重复 -->
+		<action name="validateNum" class="adminAction" method="validateNum"></action>
+		<!-- 添加用户时，验证输入的用户名是否重名 -->
+		<action name="validateName" class="adminAction" method="validateName"></action>
+	</package>
+	<package name="test2" extends="json-default">
+	<action name="validateName1" class="adminAction" method="validateName"></action>
+	<action name="sendMsg1" class="userAction" method="sendMsg1"></action>
+	<action name="SettingPwd" class="userAction" method="SettingPwd"></action>
+	<action name="deliverTask" class="taskAction" method="deliverTask">
+	<result type="json"><param name="root">"a"</param> </result></action>
+	</package>
+</struts>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+<!-- 管理员后才能访问的action  -->
+	<package name="admin" extends="authorityAdmin">
+		<!-- 对角色action的相关操作 -->
+		<action name="role_*" class="com.wind.permission.action.RoleAction" method="{1}">
+			<result name="SaveRoleSuc" type="redirectAction">role_showAllRole</result>
+			<result name="showRole">/person/usepower.jsp</result>
+			<result name="updateRoleSuc" type="redirectAction">role_showAllRole</result>
+			<result name="deleteRole" type="redirectAction">role_showAllRole</result>
+			<result name="rolePowerPre">/person/addpower.jsp</result>
+			<result name="rolePowerSuc" type="redirectAction">role_rolePowerPre?id=${id}</result>
+		</action>
+		<!-- 对功能action的相关操作 -->
+		<action name="function_*" class="com.wind.permission.action.FunctionAction" method="{1}">
+			<result name="success" type="redirectAction">role_showAllRole</result>
+		</action>
+		<action name="menu_*" class="com.wind.permission.action.MenuAction" method="{1}">
+			<result name="success" type="redirectAction">role_showAllRole</result>
+		</action>
+		
+		<!-- 对用户action的相关操作 -->
+		<action name="user_*" class="userAction" method="{1}">
+			<result name="success_save" type="redirectAction">user_showAllUser</result><!-- 添加用户 -->
+			<result name="fail">/person/addperson.jsp</result><!-- 添加用户 -->
+			<result name="showUser">/person/userlist.jsp</result><!-- 显示所有人员列表 -->
+			<result name="success_s" type="redirectAction">user_showAllUser</result>
+			<result name="addPowerSuc" type="redirectAction">user_query</result><!-- 添加用户权限 -->
+			<result name="success_d" type="redirectAction">user_query</result><!-- 显示用户 -->
+			<result name="updateUseSuc" type="redirectAction">user_showAllUser</result><!-- 修改用户 -->
+			<result name="apPer">/person/addperson.jsp</result>
+			<result name="showGroup">/person/groupList.jsp</result>
+			<result name="showPosition">/person/positionList.jsp</result>
+			<result name="type1" type="redirectAction">user_showGroup</result>
+			<result name="type2" type="redirectAction">user_showPosition</result>
+			<result name="showStatus">/person/personstatus.jsp</result>
+		</action>
+	</package>
+
+</struts>

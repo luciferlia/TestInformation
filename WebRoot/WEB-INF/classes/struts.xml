@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<constant name="struts.objectFactory" value="spring" />
+	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
+	<constant name="struts.devMode" value="false" />
+	<constant name="struts.i18n.reload" value="true" />
+	<constant name="struts.configuration.xml.reload" value="true" />
+	<constant name="struts.custom.i18n.resources" value="globalMessages" />
+	<constant name="struts.url.includeParams" value="none" />
+	<constant name="struts.ui.theme" value="xhtml"></constant>
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<include file="struts-user.xml"></include>
+	<include file="struts-admin.xml"></include>
+	<include file="struts-json.xml"></include>
+
+	<package name="struts2" extends="struts-default">
+		<global-results><result name="error">/error.jsp</result> </global-results>
+		<action name="Login_*" class="userAction" method="{1}">
+			<result name="success" type="chain">Project_showAllProject</result>
+			<result name="fail">/wind/revisepassword.jsp</result>
+			<result name="input">/index.jsp</result>
+			<result name="showUser">/person/personstatus.jsp</result>
+		</action>
+		<action name="Admin_*" class="adminAction" method="{1}">
+			<result name="success">/admin/adminAll.jsp</result>
+			<result name="input">/adminIndex.jsp</result>
+		</action>
+
+		<action name="FileDownload" class="com.wind.test.FileDownload">
+			<result name="success" type="stream">
+				<param name="contentType">application/octet-stream</param>
+				<param name="contentDisposition">attachment;fileName="${fileName}"</param>
+				<param name="inputName">fileInputStream</param>
+				<param name="bufferSize">1024</param>
+			</result>
+		</action>
+		<action name="sendMsg" class="userAction" method="sendMsg">
+			<result name="send">/wind/updatepassword.jsp</result>
+			<result name="fail">/wind/forget.jsp</result>
+		</action>
+	</package>
+	
+
+	<!-- 用户登录过滤器，只有用户登录了以后才能进行访问 -->
+	<package name="authority" extends="struts-default">
+		<interceptors>
+			<interceptor name="authority"
+				class="com.wind.interceptor.AuthorityInterceptor" />
+			<interceptor-stack name="mydefault">
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="authority" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="mydefault"></default-interceptor-ref>
+
+		<global-results>
+			<result name="login" type="redirect">/index1.jsp</result>
+			<result name="error">/error.jsp</result>
+			<result name="exception" >/error.jsp</result>
+			<result name="noMethod">/error.jsp</result>
+			<result name="nullPoint">/error.jsp</result>
+			<result name="SQLException">/error.jsp</result>
+		</global-results>
+		<global-exception-mappings>
+            <exception-mapping result="noMethod" exception="java.lang.NoSuchMethodException"></exception-mapping>
+			<exception-mapping result="nullPoint" exception="java.lang.NullPointerException"></exception-mapping>
+            <exception-mapping exception="java.sql.SQLException" result="SQLException"/>
+            <exception-mapping exception="java.lang.Exception" result="exception"/>
+        </global-exception-mappings>
+	</package>
+	<!-- 管理员登录过滤器，只有管理员登录了以后才能进行访问 -->
+	<package name="authorityAdmin" extends="struts-default">
+		<interceptors>
+			<interceptor name="authorityAdmin" class="com.wind.interceptor.AdminInterceptor" />
+			<interceptor-stack name="mydefaultAdmin">
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="authorityAdmin" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="mydefaultAdmin"></default-interceptor-ref>
+
+		<global-results>
+			<result name="login">/adminIndex.jsp</result>
+			<result name="error">/error.jsp</result>
+			<result name="exception" >/exception.jsp</result>
+			<result name="noMethod">/exception.jsp</result>
+			<result name="nullPoint">/exception.jsp</result>
+			<result name="SQLException">/exception.jsp</result>
+		</global-results>
+		<global-exception-mappings>
+			<exception-mapping result="noMethod" exception="java.lang.NoSuchMethodException"></exception-mapping>
+			<exception-mapping result="nullPoint" exception="java.lang.NullPointerException"></exception-mapping>
+            <exception-mapping exception="java.sql.SQLException" result="SQLException"/>
+            <exception-mapping exception="java.lang.Exception" result="exception"/>
+        </global-exception-mappings>
+	</package>
+
+</struts>    

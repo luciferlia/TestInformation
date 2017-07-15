@@ -1,0 +1,573 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+
+		<property name="driverClassName">
+			<value>com.mysql.jdbc.Driver</value>
+		</property>
+
+		<property name="url">
+			<value>jdbc:mysql://localhost:3306/testplatform?useUnicode=true&amp;characterEncoding=UTF-8</value>
+		</property>
+
+		<property name="username">
+		
+		
+			<!-- <value>testplatform</value> -->
+			 <value>root</value>
+		</property>
+
+		<property name="password">
+			 <!-- <value>drESdZCh</value>  -->
+			 <value>123456</value>
+		</property>
+
+	</bean>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+
+		<property name="mappingResources">
+			<list>
+				<value>com/wind/entity/User.hbm.xml</value>
+				<value>com/wind/entity/Admin.hbm.xml</value>
+				<value>com/wind/entity/Project.hbm.xml</value>
+				<value>com/wind/entity/Case.hbm.xml</value>
+				<value>com/wind/entity/Casestore.hbm.xml</value>
+				<value>com/wind/entity/Bug.hbm.xml</value>
+				<value>com/wind/entity/Policy.hbm.xml</value>
+				<value>com/wind/entity/Plan.hbm.xml</value>
+				<value>com/wind/entity/Casetype.hbm.xml</value>
+				<value>com/wind/entity/Projectoutsourcing.hbm.xml</value>
+				<value>com/wind/entity/Projectcost.hbm.xml</value>
+				<value>com/wind/entity/Role.hbm.xml</value>
+				<value>com/wind/entity/RoleMenu.hbm.xml</value>
+				<value>com/wind/entity/Menu.hbm.xml</value>
+				<value>com/wind/entity/Module.hbm.xml</value>
+				<value>com/wind/entity/UserRole.hbm.xml</value>
+				<value>com/wind/entity/Device.hbm.xml</value>
+				<value>com/wind/entity/Deviceapply.hbm.xml</value>
+				<value>com/wind/entity/Sim.hbm.xml</value>
+				<value>com/wind/entity/Prototype.hbm.xml</value>
+				<value>com/wind/entity/Function.hbm.xml</value>
+				<value>com/wind/entity/RoleFunction.hbm.xml</value>
+				<value>com/wind/entity/AdminMenu.hbm.xml</value>
+				<value>com/wind/entity/ProjectUser.hbm.xml</value>
+				<value>com/wind/entity/Plantail.hbm.xml</value>
+				<value>com/wind/entity/Caseresult.hbm.xml</value>
+				<value>com/wind/entity/Policypool.hbm.xml</value>
+				<value>com/wind/entity/Customercase.hbm.xml</value>
+				<value>com/wind/entity/SelectType.hbm.xml</value>
+				<value>com/wind/entity/Exceptionlog.hbm.xml</value>
+				<value>com/wind/entity/PlanCasestore.hbm.xml</value>
+			</list>
+		</property>
+
+
+		<property name="hibernateProperties">
+
+			<props>
+
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.MySQLDialect
+				</prop>
+				<prop key="hibernate.show_sql">true</prop>
+
+			</props>
+
+		</property>
+
+	</bean>
+	<!-- DAO层 -->
+	 <!-- 用户dao -->
+	<bean id="userDAO"
+	 	class="com.wind.daoImpl.UserDAOImpl"
+	 	abstract="false" lazy-init="default" autowire="default">
+	 	<property name="sessionFactory">
+	 		<ref bean="sessionFactory" />
+	 	</property>
+	 </bean>	
+	 <bean id="selectTypeDAO"
+	 	class="com.wind.daoImpl.SelectTypeDAOImpl"
+	 	abstract="false" lazy-init="default" autowire="default">
+	 	<property name="sessionFactory">
+	 		<ref bean="sessionFactory" />
+	 	</property>
+	 </bean>	
+	 <bean id="adminDAO"
+	 	class="com.wind.daoImpl.AdminDAOImpl"
+	 	abstract="false" lazy-init="default" autowire="default">
+	 	<property name="sessionFactory">
+	 		<ref bean="sessionFactory" />
+	 	</property>
+	 </bean>
+	 
+	 <bean id="pageDAO"
+	 	class="com.wind.daoImpl.PageDAOImpl"
+	 	abstract="false" lazy-init="default" autowire="default">
+	 	<property name="sessionFactory">
+	 		<ref bean="sessionFactory" />
+	 	</property>
+	 </bean> 
+	 <!-- 用例DAO -->
+	 <bean id="caseDAO"
+	 	class="com.wind.daoImpl.CaseDAOImpl"
+	 	abstract="false" lazy-init="default" autowire="default">
+	 	<property name="sessionFactory">
+	 		<ref bean="sessionFactory" />
+	 	</property>
+	 </bean> 
+	 <bean id="casestoreDAO"
+	 	class="com.wind.daoImpl.CaseStoreDAOImpl"
+	 	abstract="false" lazy-init="default" autowire="default">
+	 	<property name="sessionFactory">
+	 		<ref bean="sessionFactory" />
+	 	</property>
+	 </bean> 
+	 <bean id="casetypeDAO"
+	 	class="com.wind.daoImpl.CaseTypeDAOImpl"
+	 	abstract="false" lazy-init="default" autowire="default">
+	 	<property name="sessionFactory">
+	 		<ref bean="sessionFactory" />
+	 	</property>
+	 </bean> 
+	  <bean id="customercaseDAO"
+	 	class="com.wind.daoImpl.CustomercaseDAOImpl"
+	 	abstract="false" lazy-init="default" autowire="default">
+	 	<property name="sessionFactory">
+	 		<ref bean="sessionFactory" />
+	 	</property>
+	 </bean> 
+	 <bean id="caseresultDAO"
+	 	class="com.wind.daoImpl.CaseResultDAOImpl"
+	 	abstract="false" lazy-init="default" autowire="default">
+	 	<property name="sessionFactory">
+	 		<ref bean="sessionFactory" />
+	 	</property>
+	 </bean> 
+	 <!-- 项目dao -->
+	 <bean id="policyDAO"
+	 	class="com.wind.daoImpl.PolicyDAOImpl"
+	 	abstract="false" lazy-init="default" autowire="default">
+	 	<property name="sessionFactory">
+	 		<ref bean="sessionFactory" />
+	 	</property>
+	 </bean>
+	 <bean id="policyPoolDAO"
+	 	class="com.wind.daoImpl.PolicypoolDAOImpl"
+	 	abstract="false" lazy-init="default" autowire="default">
+	 	<property name="sessionFactory">
+	 		<ref bean="sessionFactory" />
+	 	</property>
+	 </bean>
+	 <bean id="plantailDAO"
+	 	class="com.wind.daoImpl.PlantailDAOImpl"
+	 	abstract="false" lazy-init="default" autowire="default">
+	 	<property name="sessionFactory">
+	 		<ref bean="sessionFactory" />
+	 	</property>
+	 </bean>
+	 <bean id="planCasestoreDAO"
+	 	class="com.wind.daoImpl.PlanCasestoreDAOImpl"
+	 	abstract="false" lazy-init="default" autowire="default">
+	 	<property name="sessionFactory">
+	 		<ref bean="sessionFactory" />
+	 	</property>
+	 </bean>
+	 <bean id="projectUserDAO"
+	 	class="com.wind.daoImpl.ProjectUserDAOImpl"
+	 	abstract="false" lazy-init="default" autowire="default">
+	 	<property name="sessionFactory">
+	 		<ref bean="sessionFactory" />
+	 	</property>
+	 </bean>
+	 <bean id="projectDAO"
+	 	class="com.wind.daoImpl.ProjectDAOImpl"
+	 	abstract="false" lazy-init="default" autowire="default">
+	 	<property name="sessionFactory">
+	 		<ref bean="sessionFactory" />
+	 	</property>
+	 </bean>
+	 	 <bean id="planDAO"
+	 	class="com.wind.daoImpl.PlanDAOImpl"
+	 	abstract="false" lazy-init="default" autowire="default">
+	 	<property name="sessionFactory">
+	 		<ref bean="sessionFactory" />
+	 	</property>
+	 </bean>
+	
+	 <bean id="projectoutsourcingDAO"
+	 	class="com.wind.daoImpl.ProjectoutsourcingDAOImpl"
+	 	abstract="false" lazy-init="default" autowire="default">
+	 	<property name="sessionFactory">
+	 		<ref bean="sessionFactory" />
+	 	</property>
+	 </bean> 
+	 <bean id="projectcostDAO"
+	 	class="com.wind.daoImpl.ProjectcostDAOImpl"
+	 	abstract="false" lazy-init="default" autowire="default">
+	 	<property name="sessionFactory">
+	 		<ref bean="sessionFactory" />
+	 	</property>
+	 </bean> 
+	 <!-- 用户权限相关DAO -->
+	  <bean id="roleDAO"
+	 	class="com.wind.permission.dao.RoleDAOImpl"
+	 	abstract="false" lazy-init="default" autowire="default">
+	 	<property name="sessionFactory">
+	 		<ref bean="sessionFactory" />
+	 	</property>
+	 </bean> 
+	  <bean id="moduleDAO"
+	 	class="com.wind.permission.dao.ModuleDAOImpl"
+	 	abstract="false" lazy-init="default" autowire="default">
+	 	<property name="sessionFactory">
+	 		<ref bean="sessionFactory" />
+	 	</property>
+	 </bean> 
+	  <bean id="menuDAO"
+	 	class="com.wind.permission.dao.MenuDAOImpl"
+	 	abstract="false" lazy-init="default" autowire="default">
+	 	<property name="sessionFactory">
+	 		<ref bean="sessionFactory" />
+	 	</property>
+	 </bean> 
+	 <bean id="adminMenuDAO"
+	 	class="com.wind.permission.dao.AdminMenuDAOImpl"
+	 	abstract="false" lazy-init="default" autowire="default">
+	 	<property name="sessionFactory">
+	 		<ref bean="sessionFactory" />
+	 	</property>
+	 </bean> 
+	  <bean id="roleMenuDAO"
+	 	class="com.wind.permission.dao.RoleMenuDAOImpl"
+	 	abstract="false" lazy-init="default" autowire="default">
+	 	<property name="sessionFactory">
+	 		<ref bean="sessionFactory" />
+	 	</property>
+	 </bean> 
+	  <bean id="userRoleDAO"
+	 	class="com.wind.permission.dao.UserRoleDAOImpl"
+	 	abstract="false" lazy-init="default" autowire="default">
+	 	<property name="sessionFactory">
+	 		<ref bean="sessionFactory" />
+	 	</property>
+	 </bean> 
+	 
+	  <bean id="functionDAO"
+	 	class="com.wind.permission.dao.FunctionDAOImpl"
+	 	abstract="false" lazy-init="default" autowire="default">
+	 	<property name="sessionFactory">
+	 		<ref bean="sessionFactory" />
+	 	</property>
+	 </bean> 
+	  <bean id="rolefunctionDAO"
+	 	class="com.wind.permission.dao.RoleFunctionDAOImpl"
+	 	abstract="false" lazy-init="default" autowire="default">
+	 	<property name="sessionFactory">
+	 		<ref bean="sessionFactory" />
+	 	</property>
+	 </bean> 
+	<!-- 资源dao -->
+	 <bean id="deviceDAO"
+	 	class="com.wind.daoImpl.DeviceDAOImpl"
+	 	abstract="false" lazy-init="default" autowire="default">
+	 	<property name="sessionFactory">
+	 		<ref bean="sessionFactory" />
+	 	</property>
+	 </bean> 
+	 <bean id="deviceApplyDAO"
+	 	class="com.wind.daoImpl.DeviceApplyDAOImpl"
+	 	abstract="false" lazy-init="default" autowire="default">
+	 	<property name="sessionFactory">
+	 		<ref bean="sessionFactory" />
+	 	</property>
+	 </bean> 
+	  <bean id="simDAO"
+	 	class="com.wind.daoImpl.SimDAOImpl"
+	 	abstract="false" lazy-init="default" autowire="default">
+	 	<property name="sessionFactory">
+	 		<ref bean="sessionFactory" />
+	 	</property>
+	 </bean> 
+	  <bean id="prototypeDAO"
+	 	class="com.wind.daoImpl.PrototypeDAOImpl"
+	 	abstract="false" lazy-init="default" autowire="default">
+	 	<property name="sessionFactory">
+	 		<ref bean="sessionFactory" />
+	 	</property>
+	 </bean> 
+	 <bean id="hqlDAO"
+	 	class="com.wind.daoImpl.HqlDAOImpl"
+	 	abstract="false" lazy-init="default" autowire="default">
+	 	<property name="sessionFactory">
+	 		<ref bean="sessionFactory" />
+	 	</property>
+	 </bean> 
+	 <!-- 异常信息dao -->
+	 <bean id="exceptionLogDAO"
+	 	class="com.wind.daoImpl.ExceptionLogDAOImpl"
+	 	abstract="false" lazy-init="default" autowire="default">
+	 	<property name="sessionFactory">
+	 		<ref bean="sessionFactory" />
+	 	</property>
+	 </bean> 
+	 
+	 <!-- Service层 -->
+	 <bean id="userService" class="com.wind.serviceImpl.UserServiceImpl">
+	 	<property name="userDAO" ref="userDAO"></property>
+	 	<property name="userRoleDAO" ref="userRoleDAO"></property>
+	 	<property name="roleDAO" ref="roleDAO"></property>
+	 </bean> 	
+	 <bean id="selectTypeService" class="com.wind.serviceImpl.SelectTypeServiceImpl">
+	 	<property name="selectTypeDAO" ref="selectTypeDAO"></property>
+	 </bean> 
+	 <bean id="adminService" class="com.wind.serviceImpl.AdminServiceImpl">
+	 	<property name="adminDAO" ref="adminDAO"></property>
+	 </bean>  
+	 <bean id="pageService" class="com.wind.serviceImpl.PageServiceImpl">
+	 	<property name="pageDAO" ref="pageDAO"></property>
+	 	<property name="roleDAO" ref="roleDAO"></property>
+	 	<property name="userRoleDAO" ref="userRoleDAO"></property>
+	 </bean>
+	 <!-- 用例相关service -->
+	 <bean id="caseService" class="com.wind.serviceImpl.CaseServiceImpl">
+	 	<property name="caseDAO" ref="caseDAO"></property>
+	 	<property name="customercaseDAO" ref="customercaseDAO"></property>
+	 </bean>
+	 <bean id="casestoreService" class="com.wind.serviceImpl.CasestoreServiceImpl">
+	 	<property name="casestoreDAO" ref="casestoreDAO"></property>
+	 	<property name="hqlDAO" ref="hqlDAO"></property>
+	 </bean>
+	  <bean id="casetypeService" class="com.wind.serviceImpl.CaseTypeServiceImpl">
+	 	<property name="ctDAO" ref="casetypeDAO"></property>
+	 	<property name="hqlDAO" ref="hqlDAO"></property>
+	 </bean>
+	 <!-- 项目相关service -->
+	  <bean id="policyPoolService" class="com.wind.serviceImpl.PolicypoolServiceImpl">
+	 	<property name="policypoolDAO" ref="policyPoolDAO"></property>
+	 	<property name="policyDAO" ref="policyDAO"></property>
+	 </bean>
+	 <bean id="policyService" class="com.wind.serviceImpl.PolicyServiceImpl">
+	 	<property name="policyDAO" ref="policyDAO"></property>
+	 </bean>
+	 <bean id="projectService" class="com.wind.serviceImpl.ProjectServiceImpl">
+	 	<property name="projectDAO" ref="projectDAO"></property>
+	 </bean>
+	 <bean id="projectUserService" class="com.wind.serviceImpl.ProjectUserServiceImpl">
+	 	<property name="projectUserDAO" ref="projectUserDAO"></property>
+	 </bean>
+	 <bean id="planService" class="com.wind.serviceImpl.PlanServiceImpl">
+	 	<property name="planDAO" ref="planDAO"></property>
+	 	<property name="projectUserDAO" ref="projectUserDAO"></property>
+	 	<property name="roleDAO" ref="roleDAO"></property>
+	 	<property name="userRoleDAO" ref="userRoleDAO"></property>
+	 	<property name="userDAO" ref="userDAO"></property>
+	 	<property name="planCasestoreDAO" ref="planCasestoreDAO"></property>
+	 </bean>
+	 <bean id="plantailService" class="com.wind.serviceImpl.PlantailServiceImpl">
+	 	<property name="plantailDAO" ref="plantailDAO"></property>
+	 </bean>
+	 <bean id="caseResultService" class="com.wind.serviceImpl.CaseResultServiceImpl">
+	 	<property name="caseresultDAO" ref="caseresultDAO"></property>
+	 </bean>
+	 
+	  <bean id="projectoutsourcingService" class="com.wind.serviceImpl.ProjectoutsourcingServiceImpl">
+	 	<property name="projectoutsourcingDAO" ref="projectoutsourcingDAO"></property>
+	 </bean>
+	 <bean id="projectcostService" class="com.wind.serviceImpl.ProjectcostServiceImpl">
+	 	<property name="projectcostDAO" ref="projectcostDAO"></property>
+	 </bean>
+	 <!-- 用户权限相关service -->
+	  <bean id="roleService" class="com.wind.permission.service.RoleServiceImpl">
+	 	<property name="roleDAO" ref="roleDAO"></property>
+	 	<property name="roleFunctionDAO" ref="rolefunctionDAO"></property>
+	 	<property name="roleMenuDAO" ref="roleMenuDAO"></property>
+	 	<property name="userRoleDAO" ref="userRoleDAO"></property>
+	 </bean>
+	  <bean id="menuService" class="com.wind.permission.service.MenuServiceImpl">
+	 	<property name="menuDAO" ref="menuDAO"></property>
+	 	<property name="moduleDAO" ref="moduleDAO"></property>
+	 	<property name="roleMenuDAO" ref="roleMenuDAO"></property>
+	 	<property name="adminMenuDAO" ref="adminMenuDAO"></property>
+	 	
+	 </bean>
+	  <bean id="moduleService" class="com.wind.permission.service.ModuleServiceImpl">
+	 	<property name="moduleDAO" ref="moduleDAO"></property>
+	 	<property name="roleMenuDAO" ref="roleMenuDAO"></property>
+	 </bean>
+	 <bean id="functionService" class="com.wind.permission.service.FunctionServiceImpl">
+	 	<property name="functionDAO" ref="functionDAO"></property>
+	 	<property name="roleFunctionDAO" ref="rolefunctionDAO"></property>
+	 </bean>
+	 <bean id="roleFunctionService" class="com.wind.permission.service.RoleFunctionServiceImpl">
+	 	<property name="roleFunctionDAO" ref="rolefunctionDAO"></property>
+	 </bean>
+	   <!-- 资源Service层 -->
+	 <bean id="deviceService" class="com.wind.serviceImpl.DeviceServiceImpl">
+	 	<property name="deviceDAO" ref="deviceDAO"></property>
+	 </bean>
+	 <bean id="deviceApplyService" class="com.wind.serviceImpl.DeviceApplyServiceImpl">
+	 	<property name="deviceApplyDAO" ref="deviceApplyDAO"></property>
+	 </bean>
+	  <bean id="simService" class="com.wind.serviceImpl.SimServiceImpl">
+	 	<property name="simDAO" ref="simDAO"></property>
+	 </bean>
+	  <bean id="prototypeService" class="com.wind.serviceImpl.PrototypeServiceImpl">
+	 	<property name="prototypeDAO" ref="prototypeDAO"></property>
+	 </bean>
+	 <bean id="rolePermissionService" class="com.wind.permission.service.RolePermissionServiceImpl">
+	 	<property name="functionDAO" ref="functionDAO"></property>
+	 	<property name="roleFunctionDAO" ref="rolefunctionDAO"></property>
+	 </bean>
+	  <bean id="hqlService" class="com.wind.serviceImpl.HqlServiceImpl">
+	 	<property name="hqlDAO" ref="hqlDAO"></property> 
+	 </bean>
+	  <bean id="exceptionLogService" class="com.wind.serviceImpl.ExceptionLogServiceImpl">
+	 	<property name="exceptionLogDAO" ref="exceptionLogDAO"></property>
+	 </bean>
+	<!-- action层 -->
+	 <bean id="userAction" class="com.wind.action.UserAction">	 
+	 	<property name="userService" ref="userService"></property>
+	 	<property name="pageService" ref="pageService"></property>
+	 	<property name="roleService" ref="roleService"></property>
+	 	<property name="moduleService" ref="moduleService"></property>
+	 	<property name="menuService" ref="menuService"></property>
+	 	<property name="hqlService" ref="hqlService"></property>
+	 	<property name="selectTypeService" ref="selectTypeService"></property>
+	 	<property name="exceptionLogService" ref="exceptionLogService"></property>
+	 	<property name="plantailService" ref="plantailService"></property>
+	 </bean>
+	  <bean id="adminAction" class="com.wind.action.AdminAction">	 
+	 	<property name="userService" ref="userService"></property>
+	 	<property name="adminService" ref="adminService"></property>
+	 	<property name="moduleService" ref="moduleService"></property>
+	 	<property name="menuService" ref="menuService"></property>
+	 	<property name="hqlService" ref="hqlService"></property>
+	 	<property name="exceptionLogService" ref="exceptionLogService"></property>
+	 </bean>
+	 <bean id="projectAction" class="com.wind.action.ProjectAction">	 
+	 	<property name="projectService" ref="projectService"></property>
+	 	<property name="userService" ref="userService"></property>
+	 	<property name="pageService" ref="pageService"></property>
+	 	<property name="projectUserService" ref="projectUserService"></property>
+	 	<property name="policypoolService" ref="policyPoolService"></property>
+	 	<property name="rolePermissionService" ref="rolePermissionService"></property>
+	 	<property name="plantailService" ref="plantailService"></property>
+	 	<property name="caseresultService" ref="caseResultService"></property>
+	 	<property name="planService" ref="planService"></property>
+	 	<property name="hqlService" ref="hqlService"></property>
+	 	<property name="exceptionLogService" ref="exceptionLogService"></property>
+	 </bean>
+	 <bean id="planAction" class="com.wind.action.PlanAction">	 
+	 	<property name="planService" ref="planService"></property>
+	 	<property name="projectService" ref="projectService"></property>
+	 	<property name="pageService" ref="pageService"></property>
+	 	<property name="casestoreService" ref="casestoreService"></property>
+	 	<property name="caseTypeServie" ref="casetypeService"></property>
+	 	<property name="hqlService" ref="hqlService"></property>
+	 	<property name="policypoolService" ref="policyPoolService"></property>
+	 	<property name="plantailService" ref="plantailService"></property>
+	 	<property name="caseresultService" ref="caseResultService"></property>
+	 	<property name="caseService" ref="caseService"></property>
+	 	<property name="rolePermissionService" ref="rolePermissionService"></property>
+	 	<property name="exceptionLogService" ref="exceptionLogService"></property>
+	 </bean> 
+	 <bean id="policyAction" class="com.wind.action.PolicyAction">
+	 	<property name="policypoolService" ref="policyPoolService"></property>
+	 	<property name="userService" ref="userService"></property>
+	 	<property name="policyService" ref="policyService"></property>
+	 	<property name="casestoreService" ref="casestoreService"></property>
+	 	<property name="caseTypeService" ref="casetypeService"></property>
+	 	<property name="caseService" ref="caseService"></property>
+	 	<property name="hqlService" ref="hqlService"></property>
+	 	<property name="exceptionLogService" ref="exceptionLogService"></property>
+	 </bean>
+	 <bean id="caseAction" class="com.wind.action.CaseAction">	 
+	 	<property name="csService" ref="casestoreService"></property>
+	 	<property name="ctService" ref="casetypeService"></property>
+	 	<property name="userService" ref="userService"></property>
+	 	<property name="caseService" ref="caseService"></property>
+	 	<property name="pageService" ref="pageService"></property>
+	 	<property name="rolePermissionService" ref="rolePermissionService"></property>
+	 	<property name="caseResultService" ref="caseResultService"></property>
+	 	<property name="exceptionLogService" ref="exceptionLogService"></property>
+		<property name="hqlService" ref="hqlService"></property>
+	 </bean>
+	  <bean id="projectUserAction" class="com.wind.action.ProjectUserAction">	 
+	 	<property name="projectUserService" ref="projectUserService"></property>
+	 	<property name="userService" ref="userService"></property>
+	 	<property name="projectService" ref="projectService"></property>
+	 	<property name="exceptionLogService" ref="exceptionLogService"></property>
+	 </bean>
+	 <bean id="projectoutsourcingAction" class="com.wind.action.ProjectoutsourcingAction">	 
+	 	<property name="projectoutsourcingService" ref="projectoutsourcingService"></property>
+	 </bean>
+	 
+	  <bean id="projectcostAction" class="com.wind.action.ProjectcostAction">	 
+	 	<property name="projectcostService" ref="projectcostService"></property>
+	 </bean>
+	  <bean id="roleAction" class="com.wind.permission.action.RoleAction">	 
+	 	<property name="roleService" ref="roleService"></property>
+	 	<property name="functionService" ref="functionService"></property>
+	 	<property name="menuService" ref="menuService"></property>
+	 	<property name="moduleService" ref="moduleService"></property>
+	 	<property name="roleFunctionService" ref="roleFunctionService"></property>
+	 </bean>
+	  <bean id="menuAction" class="com.wind.permission.action.MenuAction">	 
+	 	<property name="menuService" ref="menuService"></property>
+	 </bean>
+	  <bean id="functionAction" class="com.wind.permission.action.FunctionAction">	 
+	 	<property name="functionService" ref="functionService"></property>
+	 </bean>
+	  <!-- 资源action -->
+	  <bean id="resourceAction" class="com.wind.action.ResourceAction">	 
+	 	<property name="deviceService" ref="deviceService"></property>
+	 	<property name="deviceApplyService" ref="deviceApplyService"></property>
+	 	<property name="simService" ref="simService"></property>
+	 	<property name="prototypeService" ref="prototypeService"></property>
+	 	<property name="userService" ref="userService"></property>
+	 	<property name="pageService" ref="pageService"></property>
+	 	<property name="exceptionLogService" ref="exceptionLogService"></property>
+	 </bean>
+	   <!-- 资源action -->
+	  <bean id="uploadAction" class="com.wind.action.uploadAction">	 
+	 </bean>
+	 <!-- 我的任务 -->
+	  <bean id="taskAction" class="com.wind.action.TaskAction">	 
+	 	<property name="planService" ref="planService"></property>
+	 	<property name="projectService" ref="projectService"></property>
+	 	<property name="casetypeService" ref="casetypeService"></property>
+	 	<property name="casestoreService" ref="casestoreService"></property>
+	 	<property name="userService" ref="userService"></property>
+	 	<property name="plantailService" ref="plantailService"></property>
+	 	<property name="pageService" ref="pageService"></property>
+	 	<property name="projectUserService" ref="projectUserService"></property>
+	 	<property name="hqlService" ref="hqlService"></property>
+	 	<property name="caseResultService" ref="caseResultService"></property>
+	 	<property name="caseService" ref="caseService"></property>
+	 	<property name="exceptionLogService" ref="exceptionLogService"></property>
+	 	<property name="rolePermissionService" ref="rolePermissionService"></property>
+	 </bean>
+	 <bean id="validationPermissionAction" class="com.wind.action.ValidationPermissionAction">
+	 	<property name="hqlService" ref="hqlService"></property>
+	 	<property name="rolePermissionService" ref="rolePermissionService"></property>
+	 	<property name="userService" ref="userService"></property>
+	 </bean>
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+</beans>

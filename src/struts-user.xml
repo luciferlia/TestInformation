@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+<!-- 用户登录后才能访问的action -->
+	<package name="user" extends="authority">
+		<!-- 对项目action相关操作 -->
+		<action name="Project_*" class="projectAction" method="{1}">
+			<result name="showAll" type="dispatcher">/wind/all.jsp</result><!-- 查找所有项目，进入首页 -->
+			<result name="showAll2" type="dispatcher">/project/Myproject.jsp</result><!-- 显示我的项目信息 -->
+			<result name="p_detail" type="dispatcher">/project/project.jsp</result><!-- 根据项目名称，显示该项目详细 -->
+			<result name="plan" type="dispatcher">/project/plan.jsp</result><!-- 查找该项目计划 -->
+			<result name="addProject" type="redirectAction">Project_showProject</result><!-- 添加新项目 -->
+			<result name="updateProject" type="redirectAction">Project_showProject</result><!-- 修改项目名称 -->
+			<result name="deleteSelectedProject" type="redirectAction">Project_showProject</result><!-- 删除项目名称 -->
+		</action>
+		<!-- 对策略action的相关操作 -->
+		<action name="policy_*" class="policyAction" method="{1}">
+			<result name="showSuc">/project/client.jsp</result><!-- 显示所有策略中的客户名称 -->
+			<result name="addPolicyPool" type="redirectAction">policy_showPolicyPool</result><!-- 添加项目客户 -->
+			<result name="updatePolicyPool" type="redirectAction">policy_showPolicyPool</result><!-- 修改项目客户 -->
+			<result name="show3TPolicy">/project/policy.jsp</result><!-- 显示客户下所有项目3T策略 -->
+			<result name="showIPDPolicy">/project/IPD.jsp</result><!-- 显示客户下所有项目IPD策略 -->
+			<result name="showAutoPolicy">/project/Auto.jsp</result><!-- 显示客户下所有项目自定义策略 -->
+			<result name="imporPolicySuc" type="redirectAction">policy_showPolicy?id=${policypoolId}</result>
+			<result name="downloadSuc" type="stream">  
+               <param name="contentType">application/octet-stream</param>  
+               <param name="contentDisposition">attachment;fileName="${fileName}"</param>  
+               <param name="inputName">fileInputStream</param>  
+               <param name="bufferSize">1024</param>  
+           </result>  
+		</action>
+		<!-- 对项目计划action的相关操作 -->
+		<action name="Plan_*" class="planAction" method="{1}">
+			<result name="showAllPlan" type="redirect">/project/p_plan.jsp</result><!-- 显示项目名下的所有项目计划 -->
+			<result name="p_detail" type="redirect">/project/project.jsp</result><!-- 根据计划编号，显示该计划详情 -->
+			<result name="addPlanSuc" type="redirectAction">Plan_showPlan?id=${id}</result><!-- 添加项目计划 -->
+			<result name="show3TPolicyedit">/project/editplan.jsp</result><!--  -->
+			<result name="showIPDPolicyedit">/project/IPDedit.jsp</result><!--  -->
+			<result name="showAutoPolicyedit">/project/Autoedit.jsp</result><!--  -->
+			<result name="showPlanSuc">/project/p_plan.jsp</result><!-- 显示项目计划 -->
+			<result name="uPlanPre">/project/updateplan.jsp</result><!-- 修改项目计划前的回显 -->
+			<result name="uPlanSuc" type="redirectAction">Plan_showPlan?id=${plan.projectId}</result><!-- 修改单个项目计划 -->
+			<result name="teamtask">/project/teamtask.jsp</result><!-- 编辑版本计划-->
+			<result name="teamtask2">/project/teamtask2.jsp</result><!-- 显示版本计划 -->
+			<result name="showDeliverPre">/project/allotplan.jsp</result><!-- 分配任务回显 -->
+			<!-- <result name="teamtask2">/project/teamtask2.jsp</result> -->
+			<result name="delPlanSuc" type="redirectAction">Plan_showPlan?id=${projectId}</result><!-- 删除项目计划 -->
+			<result name="delPlanFail" type="redirectAction">Plan_showPlan?id=${projectId}</result>
+			<result name="imporPlanSuc" type="redirectAction">Plan_showPlan?id=${projectId}</result>
+			<result name="importPlanFail" type="redirectAction">Project_showProject?message=${result}</result>
+			<result name="downloadSuc" type="stream">  
+               <param name="contentType">application/octet-stream</param>  
+               <param name="contentDisposition">attachment;fileName="${fileName}"</param>  
+               <param name="inputName">fileInputStream</param>  
+               <param name="bufferSize">1024</param>  
+           </result>  
+			
+		</action>
+		
+		<!-- 对项目人员action的相关操作 -->
+		<action name="projectUser_*" class="projectUserAction" method="{1}">
+			<result name="success">/project/addmember.jsp</result><!-- 显示该项目下的人员 -->
+			<result name="addUserSuc" type="redirectAction">projectUser_showUser?id=${id}</result><!-- 添加项目人员信息 -->
+			<result name="deleteUserSuc" type="redirectAction">projectUser_showUser?id=${id}</result><!-- 删除项目人员信息 -->
+		</action>
+		
+		<!-- 对用例action的相关操作 -->
+		<action name="Case_*" class="caseAction" method="{1}">
+			<result name="showSuc">/wind/alluse.jsp</result><!-- 显示所有用例的分类 -->
+			<result name="showCaseStroeSuc" >/wind/detailuse.jsp</result><!-- 根据用例分类的编号，显示其所有用例库 -->
+			<result name="showCaseDetailSuc" >/wind/usecase.jsp</result><!-- 显示指定用例库编号下的所有用例 -->
+			<result name="addTypeSuc" type="redirectAction">Case_showCaseType</result><!-- 添加用例分类名称 -->
+			<result name="addStoreSuc" type="redirectAction">Case_showCasestore?id=${id}</result><!-- 添加用例库名称 -->
+			<result name="addCaseSuc" type="redirectAction">Case_caseDetail?id=${id}</result><!-- 添加具体用例 -->
+			<result name="pram">/wind/addusecase.jsp</result><!-- 添加用例前的回显 -->
+			<result name="delTypeSuc" type="redirectAction">Case_showCaseType</result><!-- 删除用例分类 -->
+			<result name="delStoreSuc" type="redirectAction">Case_showCasestore?id=${typeId}</result><!-- 删除某个用例库 -->
+			<result name="updCasePre">/wind/exusecase.jsp</result><!-- 修改具体用例前的回显 -->
+			<result name="updateCase" type="redirectAction">Case_selectCase2?id=${typeId}</result><!-- 修改具体用例 -->
+			<result name="updateCaseType" type="redirectAction">Case_showCaseType</result><!-- 修改用例分类 -->
+			<result name="updateCasestore" type="redirectAction">Case_showCasestore?id=${typeId}</result><!-- 修改用例库名称 -->
+			<result name="delSuc" type="redirectAction">Case_selectCase2?id=${typeId}</result><!-- 删除具体用例 -->
+			<result name="cusPool" type="redirectAction">Case_showCusCasePool</result>
+			<result name="addcus" type="redirectAction">Case_showCusCase?id=${id}</result>
+			<result name="delcus" type="redirectAction">Case_showCusCase?id=${typeId}</result>
+			<result name="showCase">/wind/detail.jsp</result><!-- 显示某个用例具体详情 -->
+			<result name="testfail">/wind/detail.jsp</result>
+			<result name="testSuc">/wind/detail.jsp</result>
+			<result name="uploadSuc" type="redirectAction">Case_showcusCaseDetail?id=${id}</result>
+			<result name="downloadSuc" type="stream">  
+               <param name="contentType">application/octet-stream</param>  
+               <param name="contentDisposition">attachment;fileName="${fileName}"</param>  
+               <param name="inputName">fileInputStream</param>  
+               <param name="bufferSize">1024</param>  
+           </result>  
+			<result name="ss">/test.jsp</result>
+			<!--客制化用例-->
+			<result name="showCusCasePool">/customerCase/cusCasePool.jsp</result>
+			<result name="showCusCase">/customerCase/cusCase.jsp</result>
+			<result name="showcusCaseDetail">/customerCase/cusCaseDetail.jsp</result>
+			<result name="delcusSuc" type="redirectAction">Case_showcusCaseDetail</result><!-- 删除上传的用例信息 -->
+		</action>
+		<!-- 对项目委外action的相关操作 -->
+		<action name="Projectoutsourcing_*" class="projectoutsourcingAction" method="{1}">
+			<result name="showAllProjectoutsourcing" type="redirect">/project/p_outsourcing.jsp</result>
+			<result name="p_detail" type="redirect">/project/project.jsp</result>
+		</action>
+		<!-- 对项目成本action的相关操作 -->
+		<action name="Projectcost_*" class="projectcostAction" method="{1}">
+			<result name="showAllProjectcost" type="redirect">/project/p_cost.jsp</result>
+		</action>
+		<action name="user_HumanStatus" class="userAction" method="HumanStatus">
+			<result name="showStatus">/person/personstatus.jsp</result>
+		</action>
+		
+		<!-- 对资源action的相关操作 -->
+		<action name="Resource_*" class="resourceAction" method="{1}">
+		<!--################################## 设备 ###############################################-->
+			<!--显示所有设备信息（管理资源者）-->
+			<result name="showAllDevice"  >/resource/deviceManage.jsp</result>
+			<!--添加设备信息-->
+			<result name="addDevice" type="chain">Resource_showAllDevice</result>
+			<!--编辑设备信息-->
+			<result name="updateDevice" type="chain">Resource_showAllDevice</result>
+			<!--添删除设备信息-->
+			<result name="deleteDevice" type="chain">Resource_showAllDevice</result>
+			<!--批量删除设备-->
+			<result name="deleteSelectedDevice" type="chain">Resource_showAllDevice</result>
+			<!--显示设备借用信息-->
+			<result name="showDeviceBorrow" >/resource/deviceBorrow.jsp</result>
+			<!--修改设备借用状态-->
+			<result name="updateDeviceState" type="chain">Resource_showDeviceBorrow</result>
+			<!--显示所有设备信息（用户）-->
+			<result name="showAllDevice2"  >/resource/deviceApply.jsp</result>
+			<!--显示设备信息详情（用户）-->
+			<result name="showDetailDevice" type="redirect">/resource/deviceDetail.jsp</result>
+			<!--设备申请（用户），并刷新设备信息界面-->
+			<result name="deviceApply" type="redirect">/resource/applyDevice.jsp</result>
+			<result name="updateDeviceApply" type="chain">Resource_showAllDevice2</result>
+			
+			<!--################################# Sim卡############################################-->
+			<result name="showAllSim" >/resource/simManage.jsp</result>
+			<result name="showAllSim2" >/resource/simApply.jsp</result>
+			<result name="addSim" type="chain">Resource_showAllSim</result>
+			<result name="updateSim" type="chain">Resource_showAllSim</result>
+			<result name="deleteSim" type="chain">Resource_showAllSim</result>
+			<result name="deleteSelectedSim" type="chain">Resource_showAllSim</result>
+			<result name="showSimBorrow" >/resource/simBorrow.jsp</result>
+			<result name="showDetailSim" >/resource/simDetail.jsp</result>
+			
+			<!--################################# 样机 ##############################################-->
+			<result name="showAllPrototype" >/resource/prototypeManage.jsp</result>
+			<result name="showAllPrototype2" >/resource/prototypeApply.jsp</result>
+			<result name="addPrototype" type="chain">Resource_showAllPrototype</result>
+			<result name="updatePrototype" type="chain">Resource_showAllPrototype</result>
+			<result name="deletePrototype" type="chain">Resource_showAllPrototype</result>
+			<result name="deleteSelectedPrototype" type="chain">Resource_showAllPrototype</result>
+			<result name="showPrototypeBorrow" >/resource/prototypeBorrow.jsp</result>
+		</action>
+		<action name="task_*" class="taskAction" method="{1}">
+			<!-- <result name="myTask">/task/mytask.jsp</result> -->
+			<result name="showMyProject" >/task/project.jsp</result>
+			<!--显示主测未分配的任务及详情-->
+			<result name="showMasterTask" >/task/mytask.jsp</result>
+			<result name="showmTaskDetail" >/task/mtaskdetail.jsp</result>
+			 <result name="deliverTask" type="redirectAction">task_showMasterTask</result> 
+			<!--显示主测已分配的任务及详情-->
+			<result name="showMassignedTask" >/task/historyTask.jsp</result>
+			<result name="showCase">/task/testcase.jsp</result>
+			<result name="exportCaseResult" type="stream">
+			<param name="contentType">application/octet-stream</param>  
+               <param name="contentDisposition">attachment;fileName="${fileName}"</param>  
+               <param name="inputName">fileInputStream</param>  
+               <param name="bufferSize">1024</param> 
+			</result>
+			<!--显示任务进度-->
+			 <result name="showTakSchedule">/task/taskSchedule.jsp</result> 
+			  <result name="showHistoryTask">/task/historyTask.jsp</result> 
+			<!--显示测试结果-->
+			 <result name="showTestResult">/task/showTestResult.jsp</result>
+			 <result name="showCaseResult">/task/caseResult.jsp</result>
+			 <result name="versionParam">task/versionResult.jsp</result>
+			 <result name="moduleParam">task/moduleResult.jsp</result>
+			  <result name="showDetailCase">/task/showdetailcase.jsp</result>
+			  
+			<result name="downloadSuc" type="stream">  
+               <param name="contentType">application/octet-stream</param>  
+               <param name="contentDisposition">attachment;fileName="${fileName}"</param>  
+               <param name="inputName">fileInputStream</param>  
+               <param name="bufferSize">1024</param>  
+           </result>  
+           
+           <result name="uploadSuccess" type="redirectAction">task_showMasterTask?page=1</result>
+		</action>
+		<action name="log_*" class="logAction" method="{1}">
+			<result name="showLog">/wind/logsearch.jsp</result>
+			<result name="showDetail">/wind/logdetail.jsp</result>
+			<result name="deleteLog" type="redirectAction">log_showAllLog</result>
+		</action>
+	</package>
+
+</struts>
